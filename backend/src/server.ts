@@ -9,6 +9,8 @@ app.use(express.json());
 
 const port = 5000;
 
+//GET ALL NOTES
+
 app.get("/notes", async (req, res) => {
     try {
       const notes = await prisma.note.findMany({
@@ -19,6 +21,8 @@ app.get("/notes", async (req, res) => {
       res.status(500).send({ error: error.message });
     }
   });
+
+//GET A NOTES BY A SPECIFIC CATEGORY
 
   app.get("/notes/:category", async (req, res) => {
     try {
@@ -35,6 +39,8 @@ app.get("/notes", async (req, res) => {
     }
   });
 
+//DELETE A NOTE
+
   app.delete("/notes/:id", async (req, res) => {
     try {
       const note = await prisma.note.delete({
@@ -45,6 +51,8 @@ app.get("/notes", async (req, res) => {
       res.status(400).send({ error: error });
     }
   });
+
+//POST A NOTE
 
   app.post("/notes", async (req, res) => {
     const notes = {
@@ -79,6 +87,23 @@ app.get("/notes", async (req, res) => {
       }
     } else {
       res.status(400).send({ errors: errors });
+    }
+  });
+
+//SEARCH FOR NOTES
+
+  app.get("/notes/note/:title", async (req, res) => {
+    try {
+      const { title } = req.params;
+  
+      const notes = await prisma.note.findMany({
+        where: { title: { contains: title } }
+      });
+  
+      res.send(notes);
+    } catch (error) {
+      // @ts-ignore
+      res.status(500).send({ error: error.message });
     }
   });
   
