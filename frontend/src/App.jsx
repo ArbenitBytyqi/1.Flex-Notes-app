@@ -7,7 +7,7 @@ import Work from './pages/Work';
 import Fun from './pages/Fun';
 
 function App() {
-
+  
 
   return (
     <div className="App">
