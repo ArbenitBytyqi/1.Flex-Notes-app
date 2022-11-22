@@ -3,23 +3,34 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export function PostForm() {
-  const [notes, setNotes] = useState([
-    {
-      Title: "My first job",
-      Content: "lorem lorem lorem lorem lorem",
-      Category: "Work",
-      Date: "01.01.2022",
-    },
-    {
-      Title: "My first job",
-      Content: "lorem lorem lorem lorem lorem",
-      Category: "Work",
-      Date: "01.01.2022",
-    },
-  ]);
+  const [notes, setNotes] = useState([]);
   return (
     <>
-      <form className="post-form">
+      <form
+        className="post-form"
+        onSubmit={(event) => {
+          event.preventDefault();
+          const newNote = {
+            title: event.target.title.value,
+            content: event.target.content.value,
+            category: event.target.category.value,
+          };
+          fetch("http://localhost:5500/notes", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newNote),
+          }).then(() => {
+            fetch("http://localhost:5500/notes")
+              .then((resp) => resp.json())
+              .then((notes) => {
+                setNotes(notes);
+              });
+          });
+          // navigate("/posts");
+        }}
+      >
         <input
           type="text"
           name="title"

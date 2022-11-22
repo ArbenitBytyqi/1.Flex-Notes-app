@@ -8,7 +8,7 @@ function Work() {
   const [notes, setNotes] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/notes/Work`)
+    fetch(`http://localhost:5500/notes/Work`)
       .then((resp) => resp.json())
       .then((notesFromServer) => setNotes(notesFromServer));
   }, []);

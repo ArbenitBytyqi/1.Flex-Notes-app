@@ -8,7 +8,7 @@ function Personal() {
   const [notes, setNotes] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/notes/Personal`)
+    fetch(`http://localhost:5500/notes/Personal`)
       .then((resp) => resp.json())
       .then((notesFromServer) => setNotes(notesFromServer));
   }, []);

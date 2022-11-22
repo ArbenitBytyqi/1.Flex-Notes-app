@@ -3,12 +3,13 @@ import { useState } from "react";
 import "../App.css";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import { PostForm } from "../components/PostForm";
+import { SearchBar } from "../components/SearchBar";
 
 function Home() {
   const [notes, setNotes] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/notes`)
+    fetch(`http://localhost:5500/notes`)
       .then((resp) => resp.json())
       .then((notesFromServer) => setNotes(notesFromServer));
   }, []);
@@ -17,10 +18,7 @@ function Home() {
     <div className="App">
       <header>
         <h2>My Notes App</h2>
-        <div className="search-bar">
-          <input placeholder="Search your notes"></input>
-          <button>Search</button>
-        </div>
+        <SearchBar />
       </header>
       <div className="note-content">
         <div className="sidebar">

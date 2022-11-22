@@ -8,7 +8,7 @@ function Fun() {
   const [notes, setNotes] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/notes/Fun`)
+    fetch(`http://localhost:5500/notes/Fun`)
       .then((resp) => resp.json())
       .then((notesFromServer) => setNotes(notesFromServer));
   }, []);
