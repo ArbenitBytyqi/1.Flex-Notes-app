@@ -1,34 +1,40 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { SetStateAction, useEffect } from "react";
+import { Notes } from "../utilis";
 
-export function PostForm() {
-  const [notes, setNotes] = useState([]);
+type Props = {
+  notes: any;
+  setNotes: React.Dispatch<SetStateAction<Notes[]>>;
+};
+
+export function PostForm({ notes, setNotes }: Props) {
+  useEffect(() => {
+    fetch(`http://localhost:5500/notes`)
+      .then((resp) => resp.json())
+      .then((notesFromServer) => setNotes(notesFromServer));
+  }, []);
   return (
-    <>
+    <div className="notes-posting">
       <form
-        className="post-form"
-        onSubmit={(event) => {
-          event.preventDefault();
-          const newNote = {
-            title: event.target.title.value,
-            content: event.target.content.value,
-            category: event.target.category.value,
+        className="post-book"
+        onSubmit={(e) => {
+          e.preventDefault();
+          const formData = {
+            title: e.target.title.value,
+            content: e.target.content.value,
+            category: e.target.category.value,
           };
           fetch("http://localhost:5500/notes", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(newNote),
+            body: JSON.stringify(formData),
           }).then(() => {
             fetch("http://localhost:5500/notes")
               .then((resp) => resp.json())
-              .then((notes) => {
-                setNotes(notes);
-              });
+              .then((notesFromServer) => setNotes(notesFromServer));
           });
-          // navigate("/posts");
         }}
       >
         <input
@@ -53,6 +59,6 @@ export function PostForm() {
         </select>
         <button className="post-btn">POST</button>
       </form>
-    </>
+    </div>
   );
 }

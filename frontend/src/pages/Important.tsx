@@ -1,12 +1,17 @@
-import React, { useEffect } from "react";
+import React, { SetStateAction, useEffect } from "react";
 import { useState } from "react";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import "../App.css";
 import { PostForm } from "../components/PostForm";
+import { SearchBar } from "../components/SearchBar";
+import { Notes } from "../utilis";
 
-function Important() {
-  const [notes, setNotes] = useState([]);
+type Props = {
+  notes: any;
+  setNotes: React.Dispatch<SetStateAction<Notes[]>>;
+};
 
+function Important({ notes, setNotes }: Props) {
   useEffect(() => {
     fetch(`http://localhost:5500/notes/Important`)
       .then((resp) => resp.json())
@@ -17,10 +22,7 @@ function Important() {
     <div className="App">
       <header>
         <h2>My Notes App</h2>
-        <div className="search-bar">
-          <input placeholder="Search your notes"></input>
-          <button>Search</button>
-        </div>
+        <SearchBar notes={notes} setNotes={setNotes} />
       </header>
       <div className="note-content">
         <div className="sidebar">
@@ -30,7 +32,7 @@ function Important() {
               <p>{note.title}</p>
             </>
           ))}
-          <PostForm />
+          <PostForm notes={notes} setNotes={setNotes} />
         </div>
         <main>
           <div>

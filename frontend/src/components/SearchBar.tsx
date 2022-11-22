@@ -1,35 +1,42 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
+import { Notes } from "../utilis";
 
-export function SearchBar() {
-  const [notes, setNotes] = useState([]);
+type Props = {
+  notes: any;
+  setNotes: React.Dispatch<SetStateAction<Notes[]>>;
+};
 
-  function handleSubmit(event) {
+export function SearchBar({ notes, setNotes }: Props) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = event.currentTarget;
-    const notesTitle = form.search.value;
 
-    if (notesTitle) {
-      fetch(`http://localhost:5500/notes/note/${notesTitle}`)
+    const form = event.currentTarget;
+    const noteTitle = form.search.value;
+
+    if (noteTitle) {
+      fetch(`http://localhost:5500/notes/note/${noteTitle}`)
         .then((resp) => resp.json())
         .then((notesFromServer) => setNotes(notesFromServer));
     } else {
-      fetch("http://localhost:5000/notes")
+      fetch("http://localhost:5500/notes")
         .then((resp) => resp.json())
         .then((notesFromServer) => setNotes(notesFromServer));
     }
   }
 
   return (
-    <div>
-      <form className="search-bar" onChange={(event) => handleSubmit(event)}>
+    <div className="notes-search">
+      <form
+        className="note-search-form"
+        onChange={(event) => handleSubmit(event)}
+      >
         <input
-          className="blog-search-input"
+          className="note-search-input"
           name="search"
           type="text"
-          placeholder="Search your notes..."
+          placeholder="Search you notes?"
         ></input>
-        <button className="blog-search-btn">Search</button>
+        <button className="note-search-btn">Search</button>
       </form>
     </div>
   );

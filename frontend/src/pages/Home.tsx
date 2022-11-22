@@ -1,13 +1,18 @@
-import React, { useEffect } from "react";
+import React, { SetStateAction, useEffect } from "react";
 import { useState } from "react";
 import "../App.css";
 import { BrowserRouter as Router, Link } from "react-router-dom";
-import { PostForm } from "../components/PostForm";
+
 import { SearchBar } from "../components/SearchBar";
+import { PostForm } from "../components/PostForm";
+import { Notes } from "../utilis";
 
-function Home() {
-  const [notes, setNotes] = useState([]);
+type Props = {
+  notes: any;
+  setNotes: React.Dispatch<SetStateAction<Notes[]>>;
+};
 
+function Home({ notes, setNotes }: Props) {
   useEffect(() => {
     fetch(`http://localhost:5500/notes`)
       .then((resp) => resp.json())
@@ -18,7 +23,7 @@ function Home() {
     <div className="App">
       <header>
         <h2>My Notes App</h2>
-        <SearchBar />
+        <SearchBar notes={notes} setNotes={setNotes} />
       </header>
       <div className="note-content">
         <div className="sidebar">
@@ -28,7 +33,7 @@ function Home() {
               <p>{note.title}</p>
             </>
           ))}
-          <PostForm />
+          <PostForm notes={notes} setNotes={setNotes} />
         </div>
         <main>
           <div>
