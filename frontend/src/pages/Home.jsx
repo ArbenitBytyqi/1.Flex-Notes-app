@@ -1,24 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import "../App.css";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import { PostForm } from "../components/PostForm";
 
 function Home() {
-  const [notes, setNotes] = useState([
-    {
-      Title: "My first job",
-      Content: "lorem lorem lorem lorem lorem",
-      Category: "Work",
-      Date: "01.01.2022",
-    },
-    {
-      Title: "My first job",
-      Content: "lorem lorem lorem lorem lorem",
-      Category: "Work",
-      Date: "01.01.2022",
-    },
-  ]);
+  const [notes, setNotes] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/notes`)
+      .then((resp) => resp.json())
+      .then((notesFromServer) => setNotes(notesFromServer));
+  }, []);
 
   return (
     <div className="App">
@@ -32,11 +25,11 @@ function Home() {
       <div className="note-content">
         <div className="sidebar">
           <h3>All Notes</h3>
-          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. </p>
-          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. </p>
-          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. </p>
-          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. </p>
-          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. </p>
+          {notes.map((note) => (
+            <>
+              <p>{note.title}</p>
+            </>
+          ))}
           <PostForm />
         </div>
         <main>
@@ -51,9 +44,9 @@ function Home() {
           <div className="notes">
             {notes.map((note) => (
               <>
-                <h3>{note.Title}</h3>
-                <p>{note.Content}</p>
-                <p>{note.Date}</p>
+                <h3>{note.title}</h3>
+                <p>{note.content}</p>
+                <p>{note.date}</p>
               </>
             ))}
           </div>
