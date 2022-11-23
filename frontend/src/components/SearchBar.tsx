@@ -14,11 +14,11 @@ export function SearchBar({ notes, setNotes }: Props) {
     const noteTitle = form.search.value;
 
     if (noteTitle) {
-      fetch(`http://localhost:5500/notes/note/${noteTitle}`)
+      fetch(`http://localhost:4000/notes/note/${noteTitle}`)
         .then((resp) => resp.json())
         .then((notesFromServer) => setNotes(notesFromServer));
     } else {
-      fetch("http://localhost:5500/notes")
+      fetch("http://localhost:4000/notes")
         .then((resp) => resp.json())
         .then((notesFromServer) => setNotes(notesFromServer));
     }

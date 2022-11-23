@@ -12,7 +12,7 @@ type Props = {
 };
 function Fun({ notes, setNotes }: Props) {
   useEffect(() => {
-    fetch(`http://localhost:5500/notes/Fun`)
+    fetch(`http://localhost:4000/notes/Fun`)
       .then((resp) => resp.json())
       .then((notesFromServer) => setNotes(notesFromServer));
   }, []);

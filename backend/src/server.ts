@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const port = 5500;
+const port = 4000;
 
 //GET ALL NOTES
 

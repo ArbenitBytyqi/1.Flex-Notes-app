@@ -9,14 +9,14 @@ type Props = {
 
 export function PostForm({ notes, setNotes }: Props) {
   useEffect(() => {
-    fetch(`http://localhost:5500/notes`)
+    fetch(`http://localhost:4000/notes`)
       .then((resp) => resp.json())
       .then((notesFromServer) => setNotes(notesFromServer));
   }, []);
   return (
-    <div className="notes-posting">
+    <div className="posting-notes">
       <form
-        className="post-book"
+        className="post-form"
         onSubmit={(e) => {
           e.preventDefault();
           const formData = {
@@ -24,14 +24,14 @@ export function PostForm({ notes, setNotes }: Props) {
             content: e.target.content.value,
             category: e.target.category.value,
           };
-          fetch("http://localhost:5500/notes", {
+          fetch("http://localhost:4000/notes", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify(formData),
           }).then(() => {
-            fetch("http://localhost:5500/notes")
+            fetch("http://localhost:4000/notes")
               .then((resp) => resp.json())
               .then((notesFromServer) => setNotes(notesFromServer));
           });
